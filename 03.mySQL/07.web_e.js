@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const fs =require('fs')
 let info = fs.readFileSync('./mysql.json', 'utf8');
 let connInfo = JSON.parse(info);
-let conn = mysql.createConnection ({
+let conn = mysql.createConnection ({ // mysql을 nodejs에서 사용하기 위한 설정
     host : connInfo.host,
     user: connInfo.user,
     password: connInfo.password,

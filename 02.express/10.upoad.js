@@ -4,7 +4,6 @@ const bodyParser = require('body-parser'); // body모듈 설치후 사용가능
 const multer = require('multer'); // 파일 업로드를 위해 사용함
 const fs =  require('fs');
 const util = require('util');
-const { error } = require('console');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
