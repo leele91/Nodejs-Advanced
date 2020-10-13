@@ -1,24 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const dm = require('./db/db-module');
+const dm = require('./db/db-module_00');
 // 웹을 컨트롤 할수 있는 것만 냄김
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.get('/', (req, res) => { 
     /* dm.getAllLists(rows => { // getAllLists에 있는것을 가져와서 처리
-        const view = require('./view/join');
+        const view = require('./view/join_00');
         let html = view.mainForm(rows);
             res.end(html);*/
         dm.getJoinLists(rows => { 
-        const view = require('./view/join');
+        const view = require('./view/join_00');
         let html = view.mainForm(rows);
         res.end(html);
     }); 
 });
 
 app.get('/insert', (req, res) => { // 입력창 영역
-    const view = require('./view/insert');
+    const view = require('./view/insert_00');
     let html = view.insertForm() 
         res.send(html);
 });
@@ -42,7 +42,7 @@ app.get('/delete/:sid', (req, res) => {
 app.get('/update/:sid', (req, res) => {
     let sid = parseInt(req.params.sid);
     dm.getsong(sid, result => {
-        const view = require('./view/update');
+        const view = require('./view/update_00');
         let html = view.updateForm(result);
         res.send(html);
     });
