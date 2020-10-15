@@ -1,6 +1,5 @@
 const fs =  require('fs');
 const mysql = require('mysql');
-const crypto = require('crypto');
 let info = fs.readFileSync('./mysql.json', 'utf8');
 let config = JSON.parse(info);
 
@@ -41,9 +40,29 @@ module.exports ={
         });
         conn.end();
     },
-    generateHash: function(something) {
+    /* generateHash: function(something) {
         let shasum = crypto.createHash('sha256');
         shasum.update(something); 
         return shasum.digest('base64');
+    }, */
+    deleteUser: function(uid, callback) { 
+        let conn = this.getConnection();
+        let sql = `update users set isDeleted =1 where uid like?;`;
+        conn.query(sql, uid, (error, fields) => {
+            if (error)
+                console.log(error);
+            callback();  // 주의 할 것
+        });
+        conn.end();
+    },
+    updateUser: function(params, callback) { 
+        let conn = this.getConnection();
+        let sql = `update users set pwd=? where uid like?;`;
+        conn.query(sql, params, (error, fields) => {
+            if (error)
+                console.log(error);
+            callback(); 
+        });
+        conn.end();
     }
 }
