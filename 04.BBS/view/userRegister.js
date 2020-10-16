@@ -2,7 +2,8 @@ const template = require('./template');
 
 module.exports.register = function () {
     return `
-            ${template.header()} 
+            ${template.header()}
+            ${template.headertow()}
             <div class="container-fluid" style="margin-top: 90px">
             <div class="row">
             <div class="col-12">

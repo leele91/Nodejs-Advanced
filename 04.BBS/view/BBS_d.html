@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" style="margin-top: 90px">
+        <div class="container">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col">
+                    <hr>
+                    텍스트 연결부분
+                    <hr>
+                    <!-- <입력 폼> -->
+                    <form action="writerAction" method="post">
+                        <div class="form-grup">
+                            댓글
+                            <textarea class="form-control" rows="2" id="comment" name="text"></textarea>
+
+                        </div>
+                        <button type="submit" style="margin-right: 10px;" class="btn btn-success mt-3">등록</button>
+                    </form>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

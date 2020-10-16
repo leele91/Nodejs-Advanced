@@ -14,25 +14,33 @@ module.exports = {
         <script src="/bootstrap/js/bootstrap.min.js"></script>
         </head>
         <body>
+        `;
+    },
+    headertow:  function(uname) {
+            return `
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
                 <a class="navbar-brand" href="#">
                     <img src="https://m.koreaart.ac.kr/images/main/logo.png?ver=201802260903" alt="logo" style="height: 50px;">
                 </a>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">홈</a>
-                    </li>
+                        <a class="nav-link" href="/bbs">홈</a></li>
+                    
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">로그아웃</a>
-                    </li>
+                        <i class="fas fa-home" style="color: beige;"></i></li>
+                    
                     <li class="nav-item">
-                        <a class="nav-link" style="margin-left: 30px;" href="#">홍길동님 반갑습니다</a>
-                    </li>
+                        <a class="nav-link" href="/logout">로그아웃</a></li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" style="margin-left: 30px;">${uname ? uname : '방문객'}님 반갑습니다</a></li>
+                    
                 </ul>
                 <div class="navbar-collapse collapse w-10 order-3 dual-collapse2">
                     <ul class="navbar-nav ml-auto">
+                    <a href="/">
                         <i class="fas fa-cloud-showers-heavy" style="color: beige;">
-                        </i>
+                        </i></a>
                     </ul>
                 </div>
             </nav>
