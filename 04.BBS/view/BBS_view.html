@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid" style="margin-top: 90px">
+            <div class="container">
+                <div class="col-2"></div>
+                <div class="col">
+                    <table width ="500">
+                        <tr>
+                            <td align="left"><h3>제목</h3></td>
+                            <td ></td>
+                            <td></td>
+                            <td align="right"><h3>이름:</h3></td>
+                            
+                        </tr>
+                        <tr>
+                            <td align="left">글번호 :</td>
+                            <td align="left">날짜:</td>
+                            <td align="right">조회:</td>
+                            <td align="right">리플:</td>
+                        </tr>
+                    </table>
+                    <hr>
+
+                    <p>내용</p>
+                    <hr>
+                    <form action="writerAction" method="post">
+                        <div class="form-grup">
+                            댓글
+                            <textarea class="form-control" rows="2" id="comment" name="text"></textarea>
+                        </div>
+                        <button type="submit" style="margin-right: 10px;" class="btn btn-success mt-3">등록</button>
+                    </form>
+                <div class="col-2"></div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

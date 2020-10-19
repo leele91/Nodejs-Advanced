@@ -1,37 +1,22 @@
 const template = require('./template');
 
-module.exports.writerAction = function () {
+module.exports.insert = function (navbar) {
     return `
-        <!DOCTYPE html>
-        <html lang="ko">
-        
-        <head>
-            <title>Bootstrap Example</title>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        </head>
-        
-        <body>
-            ${template.header()}
-            
+                ${template.header()}
+                ${navbar}
                 <div class="container-fluid" style="margin-top: 90px">
 
-                    <!-- <입력 폼> -->
                     <div class="container">
                         <div class="col-2"></div>
                         <div class="col">
-                            <form action="writerAction" method="post"> 
+                            <form action="/bbs/insert" method="post"> 
                                 <input type="text" name="bdTitle" class="form-control mt-4 mb-2" placeholder="제목을 입력해주세요" required>
                                 
                                 <div class="form-grup">
                                     <textarea  class="form-control" rows="10" name="bdContent" placeholder="내용을 입력해주세요" required>
                                     </textarea >
                                 </div>
-
+                                
                                 <button type="submit" class="btn btn-success mt-3">등록</button>
                                 
                             </form>
@@ -39,8 +24,7 @@ module.exports.writerAction = function () {
                         </div>
                     </div>
                 </div>
-        </body>
-        </html>
+    
         ${template.footer()}
     `;
 }

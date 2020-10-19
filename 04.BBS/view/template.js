@@ -24,11 +24,12 @@ module.exports = {
                 </a>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/bbs">홈</a></li>
-                    
+                    <a class="nav-link" href="/bbs"><i class="fas fa-home" style="color: beige;"></i></a></li>
+
                     <li class="nav-item">
-                        <i class="fas fa-home" style="color: beige;"></i></li>
-                    
+                    <a class="nav-link" href="/bbs/insert">
+                    <i class="far fa-edit"></i></a></li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">로그아웃</a></li>
                     

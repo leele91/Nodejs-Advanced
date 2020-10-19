@@ -75,7 +75,8 @@ module.exports ={
     },
     getJoinLists: function(callback) { 
         let conn = this.getConnection(); 
-        let sql = `SELECT bid, title, users.uname, date_format(modTime, '%Y-%m-%d %T') AS modTime, viewCount 
+        let sql = `SELECT bid, title, users.uname,
+        date_format(modTime, '%Y-%m-%d %T') AS modTime, viewCount 
         FROM users AS users
         JOIN bbs AS bbs
         ON users.uid = bbs.uid
@@ -87,4 +88,43 @@ module.exports ={
         });
         conn.end();
     },
+
+    getbbsview: function(bid, callback) {
+        let sql = `SELECT bid, users.uname, bbs.content,
+        date_format(modTime, '%Y-%m-%d %T') AS modTime ,
+        viewCount, replyCount
+        from users AS users
+        JOIN bbs AS bbs
+        ON users.uid = bbs.uid;
+        WHERE bbs.bid=?;`;
+        let conn = this.getConnection();
+        conn.query(sql, bid,(error, rows, fields) => {
+            if (error)
+                console.log(error);
+            callback(rows[0]);
+        });
+        conn.end();
+    },
+    insertbbs: function(params, callback) {
+        let sql = `insert into bbs(title, content) values(?, ?);`;
+        let conn = this.getConnection();
+        conn.query(sql, params, function (error, fields) { 
+            if (error)
+                console.log(error);
+            callback();
+        });
+        conn.end();
+    },
+
+    increaseViewCount:  function(bid, callback) {
+        let conn = this.getConnection();
+        let sql = `update bbs set viewCount=viewCount+1 where bid=?;`;
+        conn.query(sql, bid, (error, fields) => {
+            if (error)
+                console.log(error);
+            callback();
+        });
+        conn.end();
+    },
+
 }

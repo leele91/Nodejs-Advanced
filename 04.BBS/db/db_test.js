@@ -1,6 +1,6 @@
-const fs =  require('fs');
+const fs = require('fs');
 const mysql = require('mysql');
-let info = fs.readFileSync('./mysql.json', 'utf8');
+let info = fs.readFileSync('../mysql.json', 'utf8');
 let config = JSON.parse(info);
 
 function getConnection () {  
@@ -18,12 +18,32 @@ function getConnection () {
     return conn;
 }
 
-conn.connect();
-let sql = `insert into users(uid, pwd, uname, tel, email) values(?,?,?,?,?);`;
+
+
+
+    /* conn.connect(); */
+
+    let sql = `create table if not exists reply (
+	rid int NOT NULL PRIMARY KEY DEFAULT auto_increment,
+	bid int NOT NULL,
+	uid VARCHAR(20) NOT NULL,
+	content VARCHAR(100),
+	regTime DATETIME DEFAULT current_timestamp,
+	isMine int DEFAULT 0
+    );`;
+    let conn = getConnection();
+    conn.query(sql, function(error, fields) {
+    if (error)
+        console.log(error);
+    });
+    conn.end();
+        
+
+/* let sql = `insert into users(uid, pwd, uname, tel, email) values(?,?,?,?,?);`;
 conn.query(sql, params, function(error, fields) { // 받는 데이터가 없기에 row를 안씀
     if (error)
         console.log(error);
-});
+});  */
 
 /*  let sql = `SELECT song.sid, song.title, gg.name, song.lyrics FROM song 
         left JOIN girl_group AS gg

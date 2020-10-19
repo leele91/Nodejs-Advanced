@@ -1,11 +1,11 @@
 const template = require('./template');
 const ut = require('../00_util')
 
-module.exports.bblistForm = function (rows, navbar, pageNo, totalPage) {
+module.exports.bblistForm = function (data, navbar, pageNo, totalPage) {
     let tablebbsist = '';
-    for (let row of rows) {
+    for (let row of data) {
         tablebbsist += `<tr><td>${row.bid}</td>
-                            <td>${row.title}</td>
+                            <td><a href="/bbs/${row.bid}">${row.title}</a></td>
                             <td>${row.uname}</td>
                             <td>${row.modTime}</td>
                             <td>${row.viewCount}</td>
