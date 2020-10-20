@@ -3,15 +3,16 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-const bRouter = express.Router();
 const dm = require('./db/db-module')
+const am = require('./view/alertMsg');
 const ut = require('./00_util');
 const tplt = require('./view/template'); // app메인에서 받은 로그인 정보를 여기로 받아서 네비바
 const fs = require('fs');
 
-const app = express();
+const bRouter = express.Router();
+/* const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
-
+ */
 
 
 bRouter.get('/', (req, res)=> {
@@ -23,7 +24,7 @@ bRouter.get('/', (req, res)=> {
     });
 });
 
-bRouter.get('/:bid',  (req, res) => {
+bRouter.get('/bid/:bid',  (req, res) => {
     let bid = parseInt(req.params.bid);
     dm.getbbsview(bid, result => {
         const view = require('./view/BBS_view');
@@ -33,21 +34,48 @@ bRouter.get('/:bid',  (req, res) => {
     });
 });
 
-app.get('/insert', (req, res) => { // 입력창 영역
+bRouter.get('/insert', (req, res) => { // 입력창 영역
+    console.log('/bbs/insert get');
     const view = require('./view/BBS_input');
-    let html = view.insert() 
-        res.send(html);
+    let navbar = tplt.headertow(req.session.uname);
+    let html = view.insert(navbar);
+    res.send(html);
 });
 
-app.post('/insert', (req, res)=> { // 사용자가 입력한 것을 받는 영역
+bRouter.post('/insert', (req, res)=> { // 사용자가 입력한 것을 받는 영역
+    let uid = req.session.uid
     let title = req.body.title;
     let content = req.body.content;
-    let params = [title,content];
+    let params = [uid, title, content];
     dm.insertbbs(params, ()=> {
-        res.redirect('/');
+        res.redirect('/bbs');
     });
 });
 
+bRouter.get('/delete/:bid/uid/:uid', ut.isLoggedIn, (req, res) => { 
+    let bid = parseInt(req.params.bid);      
+    if (req.params.uid === req.session.uid) {                   
+        dm.deletebbs(bid, () => {
+            res.redirect('/bbs');
+        });
+    } else {
+        let html = am.alertMsg('삭제권한이 없습니다.', '/bbs');
+        res.send(html);
+    }
+});
+
+/* bRouter.get('/update/:bid', ut.isLoggedIn, (req,res) => {
+    if (req.params.uid === req.session.uid) {                             // 권한이 있다.
+        dm.getUserInfo(req.params.bid, (result) => {
+            const view = require('./view/userupdate');
+            html = view.updateForm(result);
+            res.send(html);
+        });
+    } else {
+        let html = am.alertMsg('수정 권한이 없습니다.', '/');
+        res.send(html);
+    }
+}); */
 
 
 // 페이지 

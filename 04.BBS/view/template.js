@@ -4,19 +4,19 @@ module.exports = {
         <!DOCTYPE html>
         <html lang="en">
         <head>
-        <title>My bbs</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/fontawesome-free-5.15.1-web/fontawesome-free-5.15.1-web/css/all.css">
-        <script src="/jquery/dist/jquery.min.js"></script>
-        <script src="/popper/popper.min.js"></script>
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
+            <title>My bbs</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+            <link rel="stylesheet" href="/fontawesome-free-5.15.1-web/fontawesome-free-5.15.1-web/css/all.css">
+            <script src="/jquery/dist/jquery.min.js"></script>
+            <script src="/popper/popper.min.js"></script>
+            <script src="/bootstrap/js/bootstrap.min.js"></script>
         </head>
         <body>
         `;
     },
-    headertow:  function(uname) {
+    headertow:  function(uname, result) {
             return `
             <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
                 <a class="navbar-brand" href="#">

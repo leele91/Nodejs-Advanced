@@ -1,6 +1,6 @@
 const template = require('./template');
 
-module.exports.viewForm = function (navbar) {
+module.exports.viewForm = function (result, navbar) {
     
     
     return `
@@ -10,12 +10,12 @@ module.exports.viewForm = function (navbar) {
                     <div class="container">
                         <div class="col-2"></div>
                         <div class="col">
-                        <table width ="500">
+                        <table width ="900">
                         <tr>
-                            <td align="left"><h3>${result.title}</h3></td>
+                            <td align="left"><h4>${result.title}</h4></td>
                             <td ></td>
                             <td></td>
-                            <td align="right"><h3>이름${result.uname}</h3></td>
+                            <td align="right"><h4>이름:${result.uname}</h4></td>
                             
                         </tr>
                         <tr>
@@ -29,6 +29,14 @@ module.exports.viewForm = function (navbar) {
 
                         <p>내용</p>
                         <p>${result.content}</p>
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div class="col-1">
+                            <a class="nav-link" href="/bbs"><i class="far fa-edit"></i></a></div>
+                            <div class="col-1">
+                            <a class="nav-link" href="/bbs/delete/${result.bid}/uid/${result.uid}"><i class="fas fa-trash-alt"></i></a></div>
+                            
+                        </div>
                         <hr>
                         <form action="writerAction" method="post">
                         <div class="form-grup">

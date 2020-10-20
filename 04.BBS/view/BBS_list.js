@@ -5,7 +5,7 @@ module.exports.bblistForm = function (data, navbar, pageNo, totalPage) {
     let tablebbsist = '';
     for (let row of data) {
         tablebbsist += `<tr><td>${row.bid}</td>
-                            <td><a href="/bbs/${row.bid}">${row.title}</a></td>
+                            <td><a href="/bbs/bid/${row.bid}">${row.title}</a></td>
                             <td>${row.uname}</td>
                             <td>${row.modTime}</td>
                             <td>${row.viewCount}</td>

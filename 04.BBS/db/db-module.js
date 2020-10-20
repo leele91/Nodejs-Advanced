@@ -19,7 +19,7 @@ module.exports ={
         });
         return conn;
     },
-    getBbsList: function(offset, callback) {  // 페이지 지원
+   /*  getBbsList: function(offset, callback) {  // 페이지 지원
         let conn = this.getConnection();
         let sql = `SELECT b.bid, b.uid, u.uname, b.title, b.content, 
                     b.modTime, b.viewCount, b.replyCount
@@ -35,7 +35,7 @@ module.exports ={
             callback(rows);
         });
         conn.end();
-    },
+    }, */
     getSearchList:     function(keyword, callback) { // 검색 리스트?
         let conn = this.getConnection();
         let sql = `SELECT b.bid, b.uid, u.uname, b.title, b.content, 
@@ -90,12 +90,12 @@ module.exports ={
     },
 
     getbbsview: function(bid, callback) {
-        let sql = `SELECT bid, users.uname, bbs.content,
-        date_format(modTime, '%Y-%m-%d %T') AS modTime ,
+        let sql = `SELECT bid, bbs.uid, title, users.uname, bbs.content,
+        date_format(modTime, '%Y-%m-%d %T') AS modTime,
         viewCount, replyCount
-        from users AS users
-        JOIN bbs AS bbs
-        ON users.uid = bbs.uid;
+        from bbs
+        JOIN users
+        ON bbs.uid = users.uid
         WHERE bbs.bid=?;`;
         let conn = this.getConnection();
         conn.query(sql, bid,(error, rows, fields) => {
@@ -106,12 +106,22 @@ module.exports ={
         conn.end();
     },
     insertbbs: function(params, callback) {
-        let sql = `insert into bbs(title, content) values(?, ?);`;
         let conn = this.getConnection();
-        conn.query(sql, params, function (error, fields) { 
+        let sql = `insert into bbs(uid, title, content) values(?, ?, ?);`;
+        conn.query(sql, params, (error, fields) => { 
             if (error)
                 console.log(error);
             callback();
+        });
+        conn.end();
+    },
+    deletebbs: function(bid, callback) { 
+        let conn = this.getConnection();
+        let sql = `update bbs set isDeleted =1 where bid like ?;`;
+        conn.query(sql, bid, (error, fields) => {
+            if (error)
+                console.log(error);
+            callback();  // 주의 할 것
         });
         conn.end();
     },

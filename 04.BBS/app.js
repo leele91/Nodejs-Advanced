@@ -27,38 +27,45 @@ app.use(session({
 app.use('/user', uRouter);
 app.use('/bbs', bRouter);
 
-app.get('/', (req, res) => {
-    fs.readFile('./view/index.html', 'utf8', (error, data) => {
-        res.send(data);
+
+app.get('/', (req, res)=> {
+    res.redirect('/bbs'); 
+});
+
+app.get('/login', (req, res) => {
+    fs.readFile('./view/index.html', 'utf8', (error, deat) => {    
+        res.send(deat);
     });
 });
-    app.post('/login', (req, res) => {
-        let uid = req.body.uid;
-        let pwd = req.body.pwd;
-        let pwdHash = ut.generateHash(pwd);
-        dm.getUserInfo(uid, result => {
-            if (result === undefined) {                                  // undefined가 나와야함
-                let html = am.alertMsg(`Login 실패: uid ${uid}이/가 없습니다.`, '/');
-                res.send(html);
+
+
+app.post('/login', (req, res) => {
+    let uid = req.body.uid;
+    let pwd = req.body.pwd;
+    let pwdHash = ut.generateHash(pwd);
+    dm.getUserInfo(uid, result => {
+        if (result === undefined) {                                  // undefined가 나와야함
+            let html = am.alertMsg(`Login 실패: uid ${uid}이/가 없습니다.`, '/');
+            res.send(html);
+        } else {
+            if (result.pwd === pwdHash) {
+                req.session.uid = uid;
+                req.session.uname = result.uname;
+                console.log('login 성공');
+                req.session.save(function () {
+                    res.redirect('/bbs');
+                });
             } else {
-                if (result.pwd === pwdHash) {
-                    req.session.uid = uid;
-                    req.session.uname = result.uname;
-                    console.log('login 성공');
-                    req.session.save(function () {
-                        res.redirect('/bbs');
-                    });
-                } else {
-                    let html = am.alertMsg('Login 실패: 패스워드가 다릅니다.', '/');
-                    res.send(html);
-                }
+                let html = am.alertMsg('Login 실패: 패스워드가 다릅니다.', '/');
+                res.send(html);
             }
-        });
+        }
     });
-    app.get('/logout', (req, res) => {
-        req.session.destroy();
-        res.redirect('/');
-    });
+});
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/login');
+});
 
 
 /* const view = require('./view/test');
