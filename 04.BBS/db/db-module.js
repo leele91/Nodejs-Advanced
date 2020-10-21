@@ -63,6 +63,23 @@ module.exports ={
         });
         conn.end();
     },
+    getbbsInfo: function(bid, callback) {
+        let conn = this.getConnection(); 
+        let sql = `SELECT b.bid, b.uid, u.uname, b.title, b.content, 
+                    DATE_FORMAT(b.modTime, '%Y-%m-%d %T') as modTime, 
+                    b.viewCount, b.replyCount
+                    FROM bbs AS b
+                    JOIN users AS u
+                    ON b.uid=u.uid
+                    WHERE b.bid=?;`;
+        conn.query(sql,bid, (error, result, fields) => {
+            if (error)
+                console.log(error);
+            callback(result[0]);  // 주의 할 것
+        });
+        conn.end();
+    },
+
     userint: function(params, callback) {
         let sql = `insert into users(uid, pwd, uname, tel, email) values(?,?,?,?,?);`;
         let conn = this.getConnection();
@@ -125,8 +142,20 @@ module.exports ={
         });
         conn.end();
     },
+    updatebbs: function(params, callback) {
+        let sql = `update bbs set title=?, 
+        content=?, modTime=NOW()
+        where bid=?;`;
+        let conn = this.getConnection();
+        conn.query(sql, params, function (error, fields) { 
+            if (error)
+                console.log(error);
+            callback();
+        });
+        conn.end();
+    },
 
-    increaseViewCount:  function(bid, callback) {
+    increaseViewCount:  function(bid, callback) { // 조회수
         let conn = this.getConnection();
         let sql = `update bbs set viewCount=viewCount+1 where bid=?;`;
         conn.query(sql, bid, (error, fields) => {

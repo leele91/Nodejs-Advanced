@@ -27,10 +27,12 @@ bRouter.get('/', (req, res)=> {
 bRouter.get('/bid/:bid',  (req, res) => {
     let bid = parseInt(req.params.bid);
     dm.getbbsview(bid, result => {
-        const view = require('./view/BBS_view');
-        let navbar = tplt.headertow(req.session.uname);
-        let html = view.viewForm(result, navbar);
-        res.send(html);
+        dm.increaseViewCount(bid, () => {
+            const view = require('./view/BBS_view');
+            let navbar = tplt.headertow(req.session.uname);
+            let html = view.viewForm(result, navbar);
+            res.send(html);
+        });
     });
 });
 
@@ -48,6 +50,7 @@ bRouter.post('/insert', (req, res)=> { // 사용자가 입력한 것을 받는 �
     let content = req.body.content;
     let params = [uid, title, content];
     dm.insertbbs(params, ()=> {
+        console.log(params);
         res.redirect('/bbs');
     });
 });
@@ -64,18 +67,33 @@ bRouter.get('/delete/:bid/uid/:uid', ut.isLoggedIn, (req, res) => {
     }
 });
 
-/* bRouter.get('/update/:bid', ut.isLoggedIn, (req,res) => {
-    if (req.params.uid === req.session.uid) {                             // 권한이 있다.
-        dm.getUserInfo(req.params.bid, (result) => {
-            const view = require('./view/userupdate');
-            html = view.updateForm(result);
+bRouter.get('/update/:bid/uid/:uid', ut.isLoggedIn, (req, res) => {
+    let bid = req.params.bid;
+    let uid = req.params.uid;
+    if (uid === req.session.uid) {
+        dm.getbbsInfo(bid, (result) => {
+            const view = require('./view/BBS_udte');
+            let navbar = tplt.headertow(req.session.uname);
+            html = view.update(navbar, result );
             res.send(html);
         });
     } else {
         let html = am.alertMsg('수정 권한이 없습니다.', '/');
         res.send(html);
     }
-}); */
+});
+
+bRouter.post('/update', (req, res) =>{
+    let bid = req.body.bid;
+    let title = req.body.title;
+    let content = req.body.content;
+    let params = [title, content, bid];
+    
+    dm.updatebbs(params, () => {
+        console.log(params);
+        res.redirect('/bbs');
+    });
+});
 
 
 // 페이지 

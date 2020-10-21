@@ -8,34 +8,29 @@ module.exports.viewForm = function (result, navbar) {
         ${navbar}
                 <div class="container-fluid" style="margin-top: 90px">
                     <div class="container">
-                        <div class="col-2"></div>
-                        <div class="col">
-                        <table width ="900">
-                        <tr>
-                            <td align="left"><h4>${result.title}</h4></td>
-                            <td ></td>
-                            <td></td>
-                            <td align="right"><h4>이름:${result.uname}</h4></td>
-                            
-                        </tr>
-                        <tr>
-                            <td align="left">글번호:${result.bid}</td>
-                            <td align="left">날짜:${result.modTime}</td>
-                            <td align="right">조회:${result.viewCount}</td>
-                            <td align="right">리플:${result.replyCount}</td>
-                        </tr>
-                    </table>
+                        <div class="row">
+                            <div class="col-10">
+                                <h4>제목:${result.title}</h4>
+                            </div>
+                                <div class="col-2">
+                                <h4>이름:${result.uname}</h4>
+                            </div>
+                            <div class="col-10">
+                                글번호: ${result.bid}&nbsp;
+                                날짜: ${result.modTime}
+                            </div>
+                            <div class="col-2">
+                                조회: ${result.viewCount}
+                                &nbsp;
+                                리플: ${result.replyCount}
+                            </div>
+                        </div>
                         <hr>
 
-                        <p>내용</p>
                         <p>${result.content}</p>
-                        <div class="row">
-                            <div class="col-10"></div>
-                            <div class="col-1">
-                            <a class="nav-link" href="/bbs"><i class="far fa-edit"></i></a></div>
-                            <div class="col-1">
-                            <a class="nav-link" href="/bbs/delete/${result.bid}/uid/${result.uid}"><i class="fas fa-trash-alt"></i></a></div>
-                            
+                        <div style="text-align: right;">
+                            <a href="/bbs/update/${result.bid}/uid/${result.uid}"><i class="far fa-edit"></i></a>&nbsp;
+                            <a href="/bbs/delete/${result.bid}/uid/${result.uid}"><i class="fas fa-trash-alt"></i></a>
                         </div>
                         <hr>
                         <form action="writerAction" method="post">
