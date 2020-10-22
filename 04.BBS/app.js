@@ -29,7 +29,7 @@ app.use('/bbs', bRouter);
 
 
 app.get('/', (req, res)=> {
-    res.redirect('/bbs'); 
+    res.redirect('/bbs/list/1'); 
 });
 
 app.get('/login', (req, res) => {
@@ -48,12 +48,14 @@ app.post('/login', (req, res) => {
             let html = am.alertMsg(`Login 실패: uid ${uid}이/가 없습니다.`, '/');
             res.send(html);
         } else {
+
+            
             if (result.pwd === pwdHash) {
                 req.session.uid = uid;
                 req.session.uname = result.uname;
                 console.log('login 성공');
                 req.session.save(function () {
-                    res.redirect('/bbs');
+                    res.redirect('/');
                 });
             } else {
                 let html = am.alertMsg('Login 실패: 패스워드가 다릅니다.', '/');

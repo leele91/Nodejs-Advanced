@@ -14,13 +14,22 @@ const bRouter = express.Router();
 app.use(bodyParser.urlencoded({ extended: false }));
  */
 
+bRouter.get('/list/:page', (req, res)=> {
+    let page = parseInt(req.params.page);
+    req.session.currentPage = page;
+    let offset = (page - 1) * 10;
+    dm.getBbsTotalCount(result => {
+        let totalPage = Math.ceil(result.count / 10);
+        let startPage = Math.floor((page-1)/10)*10 + 1;
+        let endPage = Math.ceil(page/10)*10;
+        endPage = (endPage > totalPage) ? totalPage : endPage;
+        dm.getJoinLists(offset, rows => {
+            const view = require('./view/BBS_list');
+            let navbar = tplt.headertow(req.session.uname); // app메인에서 받은 로그인 정보를 여기로 받아서 네비바로 넘김
+            let html = view.bblistForm(rows,navbar,page,startPage,endPage,totalPage); 
+            res.end(html);
 
-bRouter.get('/', (req, res)=> {
-    dm.getJoinLists(rows => {
-        const view = require('./view/BBS_list');
-        let navbar = tplt.headertow(req.session.uname); // app메인에서 받은 로그인 정보를 여기로 받아서 네비바로 넘김
-        let html = view.bblistForm(rows,navbar); 
-        res.end(html);
+        });
     });
 });
 
@@ -51,7 +60,7 @@ bRouter.post('/insert', (req, res)=> { // 사용자가 입력한 것을 받는 �
     let params = [uid, title, content];
     dm.insertbbs(params, ()=> {
         console.log(params);
-        res.redirect('/bbs');
+        res.redirect('/');
     });
 });
 
@@ -59,10 +68,10 @@ bRouter.get('/delete/:bid/uid/:uid', ut.isLoggedIn, (req, res) => {
     let bid = parseInt(req.params.bid);      
     if (req.params.uid === req.session.uid) {                   
         dm.deletebbs(bid, () => {
-            res.redirect('/bbs');
+            res.redirect('/');
         });
     } else {
-        let html = am.alertMsg('삭제권한이 없습니다.', '/bbs');
+        let html = am.alertMsg('삭제권한이 없습니다.', '/');
         res.send(html);
     }
 });
@@ -91,28 +100,17 @@ bRouter.post('/update', (req, res) =>{
     
     dm.updatebbs(params, () => {
         console.log(params);
-        res.redirect('/bbs');
+        res.redirect('/');
     });
 });
 
-
-// 페이지 
-/* const bRouter = express.Router();
-bRouter.get('/bbs/:page', (req, res) => {
-    let page = parseInt(req.params.page);
-    let offset = (page - 1) * 10;
-    dm.getBbsTotalCount(result => {
-        let totalPage = Math.ceil(result.count / 10);
-        dm.getBbsList(offset, rows => {
-            let view = require('./view/BBS_list');
-            let headertow = template.headertow(req.session.uname?req.session.uname:'개발자');
-            let html = view.list(headertow, rows, page, totalPage);
-            res.send(html);
-        })
+bRouter.get('/deleteConfirm/:bid', ut.isLoggedIn, (req, res) => {
+    let bid = req.params.bid;
+    let page = parseInt(req.session.currentPage);
+    dm.deletebbs(bid, () => {
+        res.redirect(`/bbs/list/${page}`);
     });
-}); */
-
-
+});
 
 /* const view = require('./view/test');
     let html = view.test();

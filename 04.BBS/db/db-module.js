@@ -19,7 +19,7 @@ module.exports ={
         });
         return conn;
     },
-   /*  getBbsList: function(offset, callback) {  // 페이지 지원
+    getBbsList: function(offset, callback) {  // 페이지 지원
         let conn = this.getConnection();
         let sql = `SELECT b.bid, b.uid, u.uname, b.title, b.content, 
                     b.modTime, b.viewCount, b.replyCount
@@ -35,7 +35,19 @@ module.exports ={
             callback(rows);
         });
         conn.end();
-    }, */
+    },
+    // 페이지에서 isD..값이 0인 것만 표시
+    getBbsTotalCount:     function(callback) {
+        let conn = this.getConnection();
+        let sql = `SELECT count(*) as count FROM bbs where isDeleted=0;`;
+        conn.query(sql, (error, results, fields) => {
+            if (error)
+                console.log(error);
+            callback(results[0]);   // 주의할 것
+        });
+        conn.end();
+    },
+
     getSearchList:     function(keyword, callback) { // 검색 리스트?
         let conn = this.getConnection();
         let sql = `SELECT b.bid, b.uid, u.uname, b.title, b.content, 
@@ -55,14 +67,25 @@ module.exports ={
     
     getUserInfo: function(uid, callback) {
         let conn = this.getConnection(); 
-        let sql = `select * from users where uid like ?;`;
-        conn.query(sql,uid, (error, results, fields) => {
+        let sql = `select * from users where uid like?;`;
+        conn.query(sql, uid, (error, results, fields) => {
             if (error)
                 console.log(error);
             callback(results[0]);  // 주의 할 것
         });
         conn.end();
     },
+    updateUser: function(params, callback) { 
+        let conn = this.getConnection();
+        let sql = `update users set pwd=?, uname=?, tel=?, email=? where uid=?;`;
+        conn.query(sql, params, (error, fields) => {
+            if (error)
+                console.log(error);
+            callback(); 
+        });
+        conn.end();
+    },
+
     getbbsInfo: function(bid, callback) {
         let conn = this.getConnection(); 
         let sql = `SELECT b.bid, b.uid, u.uname, b.title, b.content, 
@@ -90,15 +113,17 @@ module.exports ={
         });
         conn.end();
     },
-    getJoinLists: function(callback) { 
+    getJoinLists: function(offset, callback) { 
         let conn = this.getConnection(); 
-        let sql = `SELECT bid, title, users.uname,
-        date_format(modTime, '%Y-%m-%d %T') AS modTime, viewCount 
-        FROM users AS users
-        JOIN bbs AS bbs
-        ON users.uid = bbs.uid
-        ORDER BY modTime DESC LIMIT 10;`;
-        conn.query(sql, (error, rows, fields) => {
+        let sql = `SELECT b.bid, b.title, u.uname, b.title, b.content,
+        DATE_FORMAT(b.modTime, '%Y-%m-%d %T') AS modTime, b.viewCount, b.replyCount
+        FROM users AS u
+        JOIN bbs AS b
+        ON u.uid = b.uid
+        WHERE b.isDeleted=0
+        ORDER BY b.bid DESC 
+        LIMIT 10 OFFSET ?;`;
+        conn.query(sql, offset, (error, rows, fields) => {
             if (error)
                 console.log(error);
             callback(rows);

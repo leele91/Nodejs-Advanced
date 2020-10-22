@@ -1,4 +1,5 @@
 const crypto = require('crypto');
+const moment = require('moment');
 
 module.exports ={ // 로그인 패스워드 확인
     generateHash: function(something) {

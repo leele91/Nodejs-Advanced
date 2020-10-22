@@ -1,7 +1,7 @@
 
 const template = require('./template');
 
-module.exports.register = function () {
+module.exports.updateForm = function (result) {
     return `
             ${template.header()}
             ${template.headertow()}
@@ -13,11 +13,13 @@ module.exports.register = function () {
             </div>
             <div class="col-3"></div>
             <div class="col-6">
-                <form action="/user/register" method="post">
-                    <table class="table table-borderless">
+                <form action="/user/updatee" method="post">
+                <input type="hidden" name="uid" value ="${result.uid}">
+                <input type="hidden" name="uid" value ="${result.pwd}">
+                    <table>
                         <tr>
                             <td><label for="uid"> 사용자 ID</label></td>
-                            <td><input type="text" name="uid" id="uid"></td>
+                            <td><span id="uid" >${result.uid} </span></td>
                         </tr>
                         <tr>
                             <td><label for="pwd">패스워드</label></td>
@@ -29,15 +31,15 @@ module.exports.register = function () {
                         </tr>
                         <tr>
                             <td><label for="uname">이름</label></td>
-                            <td><input type="text" name="uname" id="uname"></td>
+                            <td><input type="text" name="uname" id="uname" value ="${result.uname}"></td>
                         </tr>
                         <tr>
                             <td><label for="tel">전화번호</label></td>
-                            <td><input type="text" name="tel" id="tel"></td>
+                            <td><input type="text" name="tel" id="tel" value ="${result.tel}"></td>
                         </tr>
                         <tr>
                             <td><label for="email"">e-메일</label></td>
-                            <td><input type="email" name="email" id="email"></td>
+                            <td><input type="email" name="email" id="email" value ="${result.email}"></td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center;">

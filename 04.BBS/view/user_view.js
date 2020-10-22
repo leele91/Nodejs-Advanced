@@ -1,7 +1,7 @@
 
 const template = require('./template');
 
-module.exports.register = function () {
+module.exports.userview = function (result) {
     return `
             ${template.header()}
             ${template.headertow()}
@@ -13,31 +13,30 @@ module.exports.register = function () {
             </div>
             <div class="col-3"></div>
             <div class="col-6">
-                <form action="/user/register" method="post">
-                    <table class="table table-borderless">
+                <form action="/user/information" method="post">
                         <tr>
-                            <td><label for="uid"> 사용자 ID</label></td>
-                            <td><input type="text" name="uid" id="uid"></td>
+                            <td>사용자 ID</td>
+                            <td>${result.uid}</td>
                         </tr>
                         <tr>
-                            <td><label for="pwd">패스워드</label></td>
-                            <td><input type="password" name="pwd" id="pwd"></td>
+                            <td>패스워드</td>
+                            <td>${result.pwd}</td>
                         </tr>
                         <tr>
-                            <td><label for="pwd2">패스워드 확인</label></td>
-                            <td><input type="password" name="pwd2" id="pwd2"></td>
+                            <td>패스워드 확인</td>
+                            <td>${result.pwd}</td>
                         </tr>
                         <tr>
-                            <td><label for="uname">이름</label></td>
-                            <td><input type="text" name="uname" id="uname"></td>
+                            <td>이름</td>
+                            <td>${result.uname}</td>
                         </tr>
                         <tr>
-                            <td><label for="tel">전화번호</label></td>
-                            <td><input type="text" name="tel" id="tel"></td>
+                            <td>전화번호</td>
+                            <td>${result.tel}</td>
                         </tr>
                         <tr>
-                            <td><label for="email"">e-메일</label></td>
-                            <td><input type="email" name="email" id="email"></td>
+                            <td>e-메일</td>
+                            <td>${result.email}</td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center;">

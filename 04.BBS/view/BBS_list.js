@@ -1,36 +1,39 @@
 const template = require('./template');
 const ut = require('../00_util')
 
-module.exports.bblistForm = function (data, navbar, pageNo, totalPage) {
+module.exports.bblistForm = function ( data, navbar, pageNo, startPage, endPage, totalPage) {
     let tablebbsist = '';
     for (let row of data) {
+        let displayTime = ut.getDisplayTime(row.modTime);
         tablebbsist += `<tr><td>${row.bid}</td>
                             <td><a href="/bbs/bid/${row.bid}">${row.title}</a></td>
                             <td>${row.uname}</td>
-                            <td>${row.modTime}</td>
+                            <td>${displayTime}</td>
                             <td>${row.viewCount}</td>
                         </tr>
         `;
     }
     // 페이지 지원
-    let pages = `<li class="page-item disabled">
-                    <a class="page-link active" href="#" aria-label="Previous">
+    let leftPage = (pageNo > 10) ? `/bbs/list/${Math.floor(pageNo/10) * 10}` : '#';
+    let pages = `<li class="page-item">
+                    <a class="page-link active" href="${leftPage}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span></a>
                 </li>`;
-    for (let page=1; page <= totalPage; page++) {
+    for (let page = startPage; page <= endPage; page++) {
         if (page === pageNo)
-        pages += `<li class="page-item active" aria-current="page">
-            <span class="page-link">
-                ${page}<span class="sr-only">(current)</span>
-            </span>
-        </li>`;
+            pages += `<li class="page-item active" aria-current="page">
+                        <span class="page-link">
+                            ${page}<span class="sr-only">(current)</span>
+                        </span>
+                    </li>`;
         else
-        pages += `<li class="page-item"><a class="page-link" href="/bbs/${page}">${page}</a></li>`;
-        }
-        pages += `<li class="page-item">
-        <a class="page-link" href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span></a>
-        </li>`;
+            pages += `<li class="page-item"><a class="page-link" href="/bbs/list/${page}">${page}</a></li>`;
+    }
+    let rightPage = (endPage < totalPage) ? `/bbs/list/${Math.ceil(pageNo/10)*10 + 1}` : '#';
+    pages += `<li class="page-item">
+                <a class="page-link" href="${rightPage}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span></a>
+            </li>`;
 
     return `
         ${template.header()} 
@@ -41,7 +44,7 @@ module.exports.bblistForm = function (data, navbar, pageNo, totalPage) {
                 <hr>
             </div>
             <div class="col-8">
-                <form action="/bba/bblist" method="post">
+                <form action="/bba/list" method="post">
                     <table class="table table-hover">
                         <thead>
                             <tr>
@@ -59,11 +62,7 @@ module.exports.bblistForm = function (data, navbar, pageNo, totalPage) {
             <div class="col-2"></div>
         </div>
             <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                ${pages}
             </ul>
     </div>
     
