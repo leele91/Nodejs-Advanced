@@ -41,7 +41,7 @@ module.exports.register = function () {
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align: center;">
-                                <input class="btn btn-primary" type="submit" value="제출">
+                                <button type="submit" class="btn btn-success" onclick="location.href='/login'">가입</button>
 								<input class="btn btn-secondary" type="reset" value="취소">
                             </td>
                         </tr>

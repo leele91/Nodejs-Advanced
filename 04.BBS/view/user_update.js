@@ -1,25 +1,25 @@
 
 const template = require('./template');
 
-module.exports.updateForm = function (result) {
+module.exports.updateForm = function (navbar, result ) {
     return `
             ${template.header()}
-            ${template.headertow()}
+            ${navbar}
             <div class="container-fluid" style="margin-top: 90px">
             <div class="row">
             <div class="col-12">
-                <h3>회원 가입</h3>
+                <h3>회원 정보 수정</h3>
                 <hr>
             </div>
             <div class="col-3"></div>
             <div class="col-6">
-                <form action="/user/updatee" method="post">
+                <form action="/user/update" method="post">
                 <input type="hidden" name="uid" value ="${result.uid}">
-                <input type="hidden" name="uid" value ="${result.pwd}">
+                <input type="hidden" name="pwdHash" value ="${result.pwd}">
                     <table>
                         <tr>
                             <td><label for="uid"> 사용자 ID</label></td>
-                            <td><span id="uid" >${result.uid} </span></td>
+                            <td><span id="uid" >${result.uid}</span></td>
                         </tr>
                         <tr>
                             <td><label for="pwd">패스워드</label></td>
@@ -44,7 +44,7 @@ module.exports.updateForm = function (result) {
                         <tr>
                             <td colspan="2" style="text-align: center;">
                                 <input class="btn btn-primary" type="submit" value="제출">
-								<input class="btn btn-secondary" type="reset" value="취소">
+								<button type="submit" class="btn btn-secondary" onclick="location.href='/user/uid/${result.uid}'">취소</button>
                             </td>
                         </tr>
                     </table>
