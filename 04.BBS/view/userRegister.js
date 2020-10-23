@@ -1,10 +1,10 @@
 
 const template = require('./template');
 
-module.exports.register = function () {
+module.exports.register = function (navbar) {
     return `
             ${template.header()}
-            ${template.headertow()}
+            ${navbar}
             <div class="container-fluid" style="margin-top: 90px">
             <div class="row">
             <div class="col-12">

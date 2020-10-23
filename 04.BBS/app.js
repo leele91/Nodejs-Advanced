@@ -49,7 +49,7 @@ app.post('/login', (req, res) => {
             res.send(html);
         } else {
 
-            
+
             if (result.pwd === pwdHash) {
                 req.session.uid = uid;
                 req.session.uname = result.uname;

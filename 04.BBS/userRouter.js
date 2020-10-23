@@ -8,7 +8,8 @@ const uRouter = express.Router();
 // 회원가입 창
 uRouter.get('/register', (req, res) => {
         const view = require('./view/userRegister'); //userRegister: 회원가입 html폼
-        let html = view.register();
+        let navbar = tplt.headertow(req.session.uname);
+        let html = view.register(navbar);
         res.send(html);
 });
 // 패스워드 재 확인창
