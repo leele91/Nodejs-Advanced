@@ -5,8 +5,10 @@ module.exports.bblistForm = function ( data, navbar, pageNo, startPage, endPage,
     let tablebbsist = '';
     for (let row of data) {
         let displayTime = ut.getDisplayTime(row.modTime);
+        let title = (row.replyCount == 0) ? row.title :
+            `${row.title}<span class="text-danger">[${row.replyCount}]</span>`;
         tablebbsist += `<tr><td>${row.bid}</td>
-                            <td><a href="/bbs/bid/${row.bid}">${row.title}</a></td>
+                            <td><a href="/bbs/bid/${row.bid}"><strong>${title}</strong></a></td>
                             <td>${row.uname}</td>
                             <td>${displayTime}</td>
                             <td>${row.viewCount}</td>

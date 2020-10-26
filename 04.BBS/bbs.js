@@ -33,14 +33,29 @@ bRouter.get('/list/:page', (req, res)=> {
     });
 });
 
-bRouter.get('/bid/:bid',  (req, res) => {
+bRouter.get('/bid/:bid',  ut.isLoggedIn, (req, res) => {
     let bid = parseInt(req.params.bid);
     dm.getbbsview(bid, result => {
         dm.increaseViewCount(bid, () => {
-            const view = require('./view/BBS_view');
-            let navbar = tplt.headertow(req.session.uname);
-            let html = view.viewForm(result, navbar);
-            res.send(html);
+            dm.getReplyData(bid, replies => {
+                const view = require('./view/BBS_view');
+                let navbar = tplt.headertow(req.session.uname);
+                let html = view.viewForm(navbar, result, replies);
+                res.send(html);
+            });
+        });
+    });
+});
+
+bRouter.post('/reply', ut.isLoggedIn,(req, res) => {
+    let bid = parseInt(req.body.bid);
+    let uid = req.session.uid;
+    let content = req.body.content;
+    let isMine = (uid === req.body.uid) ? 1 : 0;
+    let params = [bid, uid, content, isMine];
+    dm.insertreply(params, () => {
+        dm.increasereplyCount(bid, () => {
+            res.redirect(`/bbs/bid/${bid}`)
         });
     });
 });
@@ -111,6 +126,8 @@ bRouter.get('/deleteConfirm/:bid', ut.isLoggedIn, (req, res) => {
         res.redirect(`/bbs/list/${page}`);
     });
 });
+
+
 
 /* const view = require('./view/test');
     let html = view.test();

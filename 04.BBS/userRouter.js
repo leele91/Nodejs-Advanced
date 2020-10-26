@@ -24,7 +24,7 @@ uRouter.post('/register',  (req, res)=>{
         let pwdHash = ut.generateHash(pwd);
         let params = [uid, pwdHash, uname, tel, email];
         dm.userint(params, ()=> {
-            res.redirect('/');
+            res.redirect('/login');
         });
     } else {                                                         // 패스워드 입력이 잘못된 경우
         let html = am.alertMsg(`패스워드가 일치하지 않습니다`,  './register');

@@ -227,5 +227,42 @@ module.exports = {
         });
         conn.end();
     },
+    insertreply: function (params, callback) {
+        let conn = this.getConnection();
+        let sql = `insert into reply(bid, uid, content, isMine) VALUES(?,?,?,?);`;
+        conn.query(sql, params, (error, fields) => {
+            if (error)
+                console.log(error);
+            callback();
+        });
+        conn.end();
+    },
+
+    increasereplyCount: function (bid, callback) {
+        let conn = this.getConnection();
+        let sql = `update bbs set replyCount=replyCount+1 where bid=?;`;
+        conn.query(sql, bid, (error, fields) => {
+            if (error)
+                console.log(error);
+            callback();
+        });
+        conn.end();
+    },
+    getReplyData:     function(bid, callback) {
+        let conn = this.getConnection();
+        let sql = `SELECT r.rid, r.bid, r.uid, u.uname, r.content, r.isMine,
+                    DATE_FORMAT(r.regTime, '%Y-%m-%d %T') as regTime
+                    FROM reply AS r
+                    JOIN users AS u
+                    ON r.uid = u.uid
+                    WHERE r.bid=?;`;
+        conn.query(sql, bid, (error, rows, fields) => {
+            if (error)
+                console.log(error);
+            callback(rows);
+        });
+        conn.end();
+    },
+
 
 }
