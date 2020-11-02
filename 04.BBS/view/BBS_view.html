@@ -15,50 +15,67 @@
 </head>
 
 <body>
-    <div class="container-fluid" style="margin-top: 90px">
+    <div class="container" style="margin-top: 90px">
         <div class="container">
             <div class="row">
-                <div class="col-9">
+                <div class="col-1"></div>
+                <div class="col-5">
                     <h3>제목: </h3>
+                    <h6>글번호: &nbsp; 날짜:</h6>
                 </div>
-                <div class="col-3">
+                <div class="col-5" style="text-align: right;">
                     <h3>이름:</h3>
+                    <h6>조회: &nbsp; 리플: </h6>
                 </div>
-                <div class="col-10">
-                    글번호 :&nbsp;
-                    날짜:
-                </div>
-                <div class="col-2">
-                    조회:
-                    &nbsp;
-                    리플:
-                </div>
-
+                <div class="col-1"></div>
             </div>
             <hr>
-
-            <p>내용</p>
             <div class="row">
-                <div class="col-2"></div>
-                    <div class="col-8 text-right">
-                        <a href="/bbs/update/"><i class="far fa-edit"></i></a>
-                        <a href="/bbs/update/"><i class="fas fa-trash-alt"></i></a>
-                        <div class="col-1"></div>
-                    </div>
-                    
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <p>내용</p>
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10" style="text-align: right;">
+                    <a href="/bbs/update/"><i class="far fa-edit"></i></a>
+                    <a href="/bbs/update/"><i class="fas fa-trash-alt"></i></a>
+                </div>
+                <div class="col-1"></div>
             </div>
             <hr>
-            <form action="writerAction" method="post">
-                <div class="form-grup">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                <form class="form-group" action="/bbs/reply" method="post">
+                    <div class="form-group"></div>
+                        <input type="hidden" name="bid" value ="${result.bid}">
+                        <input type="hidden" name="uid" value ="${result.uid}">
                     댓글
-                    <textarea class="form-control" rows="2" id="comment" name="text"></textarea>
+                        <textarea class="form-control" rows="3" id="content" name="content"></textarea>
+                        <button type="submit" style="margin-right: 10px;" class="btn btn-success mt-3">등록</button>
+                    </form>
                 </div>
-                <button type="submit" style="margin-right: 10px;" class="btn btn-success mt-3">등록</button>
-            </form>
-            <div class="col-2"></div>
+                <div class="col-1"></div>
+            </div>
         </div>
     </div>
     </div>
+
+
+    <!-- <form action="writerAction" method="post">
+                <div class="form-group">
+                    <form class="form-inline" action="/bbs/reply" method="post">
+                            <input type="hidden" name="bid" value ="${result.bid}">
+                            <input type="hidden" name="uid" value ="${result.uid}">
+                        댓글
+                            <textarea class="form-control" rows="3" cols="80" id="content" name="content"></textarea>
+                            <button type="submit" style="margin-right: 10px;" class="btn btn-success mt-3">등록</button>
+                    </form>
+                </div>
+            </form> -->
 </body>
 
 </html>

@@ -18,9 +18,6 @@ function getConnection () {
     return conn;
 }
 
-
-
-
     /* conn.connect(); */
 
     let sql = `create table if not exists reply (
